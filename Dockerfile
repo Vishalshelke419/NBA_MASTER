@@ -1,13 +1,18 @@
+# Use official Python image
 FROM python:3.10-slim
 
+# Set working directory
 WORKDIR /app
 
-# Copy requirements and install
+# Install dependencies first for caching
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy everything to the container
-COPY . .
+# Copy only Python code
+COPY ["Datasets/Python files", "/app/code"]
 
-# Set the command to run your script from the subdirectory
-CMD ["python", "Datasets/Python files/test.py"]
+# Create mount point for data
+RUN mkdir -p /app/data_files
+
+# Run the script
+CMD ["python", "/app/code/test.py"]

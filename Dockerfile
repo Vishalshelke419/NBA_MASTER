@@ -1,16 +1,13 @@
-# Use the official Python base image
 FROM python:3.10-slim
 
-# Set working directory
 WORKDIR /app
 
-# Copy all Python files and requirements.txt
-COPY ./*.py /app/
-COPY requirements.txt /app/
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dependencies
-RUN pip install --upgrade pip \
- && pip install -r requirements.txt
+# Copy everything to the container
+COPY . .
 
-# Run your script (adjust if needed)
-CMD ["python", "dataset.py"]
+# Set the command to run your script from the subdirectory
+CMD ["python", "Datasets/Python files/test.py"]
